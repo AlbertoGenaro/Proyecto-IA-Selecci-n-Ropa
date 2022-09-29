@@ -1,0 +1,139 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
+armario = "Armario:\n"
+num = int(input("Cuantas prendas individuales hay en tu armario? (un par de zapatos cuenta como una)"))
+while num > 0:
+    armario = armario+(input("""Describre brevemente una prenda para agregarla a tu armario digital 
+    (ejemplo: playera negra)"""))+"\n"
+    num -=1
+print (armario)
+
+
+# In[ ]:
+
+
+prompt1 = armario+"""\n
+Durante días fríos se utiliza:\n
+Playera\n
+Camiseta tipo polo\n
+Pantalón de Mezclilla\n
+Camisa\n
+Tenis\n
+Zapatos\n
+Sandalias\n
+Chamarra\n
+Sudadera\n
+Bufanda\n
+Saco\n
+\n
+Durante días fríos no se utiliza:\n
+Shorts\n
+\n
+Durante días soleados se utiliza:\n
+Colores claros\n
+Playera\n
+Camiseta tipo polo\n
+Pantalón de Mezclilla\n
+Camisa\n
+Tenis\n
+Zapatos\n
+Sandalias\n
+Shorts\n
+Vestido\n
+\n
+En la playa no se utiliza:\n
+Tacones\n
+Zapatos\n
+Pantalón deportivo\n
+\n
+En la playa se utiliza:\n
+Traje de baño\n
+Sandalias\n
+Camiseta tipo polo\n
+Camisa\nShorts\n
+Playera\n
+Vestido\n
+Lentes de sol\n
+\n
+Conjunto en la playa:\n
+1. Traje de baño azul\n
+2. Sandalias rojas\n
+3. Playera blanca\n
+4. Lentes de sol\n
+\n
+Conjunto en la playa:\n
+1. Traje de baño negro\n
+2. Sandalias blancas\n
+3. Playera azul\n
+4. Lentes de sol\n
+\n
+Conjunto en la playa:\n
+1. Traje de baño negro\n
+2. Sandalias blancas\n
+3. Playera azul\n
+4. No hay lentes de sol en tu armario, seria buena idea conseguir unos.\n
+\n
+Conjunto en un día soleado:\n
+1. Shorts grises\n
+2. Tenis blancos\n
+3. Playera naranja\n
+4. Lentes de sol\n
+\n
+Conjunto en un día soleado:\n
+1. Tacones blancos\n
+2. Vestido rosa\n
+3. No hay lentes de sol en tu armario, seria buena idea conseguir unos.\n
+\n
+Conjunto en un día frió:\n
+1. Pantalón de mezclilla azul\n
+2. Tenis grises\n
+3. Camiseta tipo polo negra\n
+4. Chamarra blanca\n
+\n
+La ropa de color blanca se puede usar junto con todos los colores de ropa.\n
+La ropa de color beige se puede usar junto con ropa de color negra, café, roja y verde.\n
+La ropa de color azul cielo se puede usar junto con ropa de color café, verde, morado, rosa, rojo, y azul.\n
+La ropa de color rosa se puede usar junto con ropa de color morado, beige, gris, azul.\n
+La ropa de color amarillo se puede usar junto con ropa de color negro, café, gris y azul.\n
+La ropa de color naranja se puede usar junto con ropa de color blanco, amarillo, negro y azul.\n
+La ropa de color negro se puede usar junto con ropa blanco, beige y colores claros pero no colores pastel.\n
+La ropa de color café se puede usar junto con ropa de color blanco, beige, negro, rojo y verde.\n
+La ropa de color azul se puede usar junto con ropa de color blanco, beige, amarillo, rosa y verde.\n
+La ropa de color verde se puede usar junto con ropa de color blanco, beige, azul cielo, amarillo, azul y negro.\n
+La ropa de color rojo se puede usar junto con ropa de color blanco, beige, azul cielo, azul, negro y café.\n
+La ropa de color Morado se puede usar junto con ropa de color blanco, azul cielo, rosa, azul y café."""
+
+
+# In[ ]:
+
+
+import os
+import openai
+import json
+
+activo = 1
+
+while activo == 1:
+    pregunta = input("Como te puedo ayudar?")
+    promptfin = prompt1+pregunta
+    
+    openai.api_key = "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"
+    response = openai.Completion.create(
+      model="text-davinci-002",
+      prompt=promptfin,
+      temperature=0,
+      max_tokens=600,
+      top_p=1,
+      frequency_penalty=0,
+      presence_penalty=0
+    )
+    for t in response['choices']:
+        print (t['text'])
+    ac = input("necesitas algo mas?") 
+    if ac == "no" or ac == "No":
+        activo = 0
+print ('Gracias')
